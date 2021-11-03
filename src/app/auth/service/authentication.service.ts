@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { User, Role } from 'app/auth/models';
 import { ToastrService } from 'ngx-toastr';
+import { ConfigurationService } from "./configuration/config.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -19,8 +20,13 @@ export class AuthenticationService {
    *
    * @param {HttpClient} _http
    * @param {ToastrService} _toastrService
+   * @param http
+   * @param _configService
    */
-  constructor(private _http: HttpClient, private _toastrService: ToastrService) {
+  constructor(private _http: HttpClient,
+              private _toastrService: ToastrService,
+              private http: HttpClient,
+              private _configService: ConfigurationService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -52,6 +58,27 @@ export class AuthenticationService {
    * @returns user
    */
   login(email: string, password: string) {
+
+    return new Promise((resolve, reject) => {
+      this.http.post(this._configService.apiUrl + 'auth/connexion', { email: email, motDePasse: password })
+          // @ts-ignore
+          .subscribe((authData: { token: string, userId: string, nom: string, prenom: string, statut: number }) => {
+                //Recuperation du token
+                sessionStorage.setItem('token', authData.token);
+                sessionStorage.setItem('userId', authData.userId);
+
+                // @ts-ignore
+                this.currentUserSubject.next(authData);
+                console.log(authData);
+                resolve(authData);
+              },
+              (error) => {
+                reject(error);
+              }
+          );
+    });
+
+    /*
     return this._http
       .post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
       .pipe(
@@ -78,7 +105,7 @@ export class AuthenticationService {
 
           return user;
         })
-      );
+      );*/
   }
 
   /**

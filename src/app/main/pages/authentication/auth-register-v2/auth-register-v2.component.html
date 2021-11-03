@@ -1,0 +1,173 @@
+<div class="auth-wrapper auth-v2">
+  <div class="auth-inner row m-0">
+    <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
+      <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+      <h2 class="brand-text text-primary ml-1">Cestpasfrancais</h2></a
+    >
+    <!-- /Brand logo-->
+
+    <!-- Left Text-->
+    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+      <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <img
+          class="img-fluid"
+          [src]="
+            coreConfig.layout.skin === 'dark'
+              ? 'assets/images/pages/register-v2-dark.svg'
+              : 'assets/images/pages/register-v2.svg'
+          "
+          alt="Register V2"
+        />
+      </div>
+    </div>
+    <!-- /Left Text-->
+
+    <!-- Register-->
+    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <h2 class="card-title font-weight-bold mb-1">L'aventure commence ici 🚀</h2>
+        <p class="card-text mb-2">Créez votre compte gratuitement dès maintenant et profiter de nos services.</p>
+        <form class="auth-register-form mt-2" [formGroup]="inscriptionForm" (ngSubmit)="onSignup()">
+
+          <div class="form-group">
+            <label for="selection_sexe" class="form-label">Sexe</label>
+            <select
+                    id="selection_sexe" formControlName="sexe"
+                    class="form-control"
+                    aria-describedby="inscription-sexe"
+                    [ngClass]="{ 'is-invalid': submitted && f.sexe.errors }">
+              <option value="" [selected]="true">F/H</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+            <div *ngIf="submitted && f.sexe.errors" class="invalid-feedback">
+              <div *ngIf="f.sexe.errors.required">Veuillez faire un choix.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inscription_input_name">Nom</label>
+            <input
+                    id="inscription_input_name"
+                    placeholder="Nom"
+                    type="text"
+                    formControlName="nom"
+                    class="form-control"
+                    aria-describedby="inscription-nom"
+                    [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"/>
+            <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+              <div *ngIf="f.nom.errors.required">Veuillez entrer un nom valide..</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inscription_input_prenom">Prénom</label>
+            <input
+                    id="inscription_input_prenom"
+                    placeholder="Prénom"
+                    type="text"
+                    formControlName="prenom"
+                    class="form-control"
+                    aria-describedby="inscription-prenom"
+                    [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"/>
+            <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+              <div *ngIf="f.prenom.errors.required">Veuillez entrer un prénom valide.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inscription-email" class="form-label">Adresse email</label>
+            <input
+                    id="inscription-email"
+                    type="text"
+                    formControlName="email"
+                    class="form-control"
+                    placeholder="john@example.com"
+                    aria-describedby="inscription-email"
+                    tabindex="2"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+            />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">L'adresse email est requise.</div>
+              <div *ngIf="f.email.errors.email">Veuillez entrer une adresse email valide.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inscription-motDePasse" class="form-label">Mot de passe</label>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                      id="inscription-motDePasse"
+                      type="password"
+                      formControlName="motDePasse"
+                      class="form-control form-control-merge"
+                      placeholder="············"
+                      aria-describedby="inscription-motDePasse"
+                      tabindex="3"
+                      [ngClass]="{ 'is-invalid': submitted && f.motDePasse.errors }"
+              />
+            </div>
+            <div
+              *ngIf="submitted && f.motDePasse.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.motDePasse.errors }">
+              <div *ngIf="f.motDePasse.errors.required">Le mot de passe est requis.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inscription-confirmMotDePasse" class="form-label">Confirmation mot de passe</label>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                      id="inscription-confirmMotDePasse"
+                      type="password"
+                      formControlName="confirmMotDePasse"
+                      class="form-control form-control-merge"
+                      placeholder="············"
+                      aria-describedby="inscription-confirmMotDePasse"
+                      tabindex="3"
+                      [ngClass]="{ 'is-invalid': submitted && f.confirmMotDePasse.errors }"
+              />
+            </div>
+            <div
+                    *ngIf="submitted && f.confirmMotDePasse.errors"
+                    class="invalid-feedback"
+                    [ngClass]="{ 'd-block': submitted && f.confirmMotDePasse.errors }">
+              <div *ngIf="f.confirmMotDePasse.errors.required">La confirmation du mot de passe est requis.</div>
+              <div *ngIf="inscriptionForm.controls['motDePasse'].value !== inscriptionForm.controls['confirmMotDePasse'].value && inscriptionForm == true">Le mot de passe ne correspond pas.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" formControlName="acceptCond" type="checkbox" id="register-privacy-policy" tabindex="4" />
+              <label class="custom-control-label" for="register-privacy-policy">
+                J'accepte les <a href="javascript:void(0);">conditions d'utilisation</a>
+              </label>
+            </div>
+            <div *ngIf="submitted && f.acceptCond.errors" class="invalid-feedback">
+              <div *ngIf="f.acceptCond.errors.required">Vous devez accepter les conditions d'utilisation.</div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>S'inscrire</button>
+        </form>
+        <p class="text-center mt-2">
+          <span>Vous avez déjà un compte?</span>
+          <a routerLink="/pages/authentication/login-v2"><span>&nbsp;Connectez-vous</span></a>
+        </p>
+        <!--
+        <div class="divider my-2">
+          <div class="divider-text">or</div>
+        </div>
+        <div class="auth-footer-btn d-flex justify-content-center">
+          <a class="btn btn-facebook" href="javascript:void(0)"><i data-feather="facebook"></i></a
+          ><a class="btn btn-twitter white" href="javascript:void(0)"><i data-feather="twitter"></i></a
+          ><a class="btn btn-google" href="javascript:void(0)"><i data-feather="mail"></i></a
+          ><a class="btn btn-github" href="javascript:void(0)"><i data-feather="github"></i></a>
+        </div>-->
+      </div>
+    </div>
+    <!-- /Register-->
+  </div>
+</div>

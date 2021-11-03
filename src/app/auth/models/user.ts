@@ -2,11 +2,14 @@
 
 export class User {
   id: number;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+  sexe: string = "";
+  prenom: string = "";
+  nom: string = "";
+  email: string = "";
+  motDePasse: string = "";
+  acceptCond?: boolean;
   avatar: string;
   role: Role;
+  date?: Date;
   token?: string;
 }
