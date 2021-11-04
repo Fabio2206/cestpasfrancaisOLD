@@ -7,10 +7,10 @@ import { CoreConfigService } from '@core/services/config.service';
 
 @Component({
   selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+  templateUrl: './erreur.component.html',
+  styleUrls: ['./erreur.component.scss']
 })
-export class ErrorComponent implements OnInit {
+export class ErreurComponent implements OnInit {
   public coreConfig: any;
 
   // Private

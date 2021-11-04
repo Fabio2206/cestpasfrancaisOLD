@@ -134,19 +134,26 @@
                     class="invalid-feedback"
                     [ngClass]="{ 'd-block': submitted && f.confirmMotDePasse.errors }">
               <div *ngIf="f.confirmMotDePasse.errors.required">La confirmation du mot de passe est requis.</div>
-              <div *ngIf="inscriptionForm.controls['motDePasse'].value !== inscriptionForm.controls['confirmMotDePasse'].value && inscriptionForm == true">Le mot de passe ne correspond pas.</div>
             </div>
           </div>
 
           <div class="form-group">
             <div class="custom-control custom-checkbox">
-              <input class="custom-control-input" formControlName="acceptCond" type="checkbox" id="register-privacy-policy" tabindex="4" />
-              <label class="custom-control-label" for="register-privacy-policy">
+              <input
+                      class="custom-control-input"
+                      formControlName="acceptCond"
+                      type="checkbox"
+                      id="inscription-condition"
+                      tabindex="4"
+                      aria-describedby="condition-utilisation"
+                      [ngClass]="{ 'is-invalid': submitted && f.acceptCond.errors }"
+              />
+              <label class="custom-control-label" for="inscription-condition">
                 J'accepte les <a href="javascript:void(0);">conditions d'utilisation</a>
               </label>
-            </div>
-            <div *ngIf="submitted && f.acceptCond.errors" class="invalid-feedback">
-              <div *ngIf="f.acceptCond.errors.required">Vous devez accepter les conditions d'utilisation.</div>
+              <div *ngIf="submitted && f.acceptCond.errors" class="invalid-feedback">
+                <div *ngIf="f.acceptCond.errors">Vous devez accepter les conditions d'utilisation.</div>
+              </div>
             </div>
           </div>
 
@@ -154,7 +161,7 @@
         </form>
         <p class="text-center mt-2">
           <span>Vous avez déjà un compte?</span>
-          <a routerLink="/pages/authentication/login-v2"><span>&nbsp;Connectez-vous</span></a>
+          <a routerLink="/connexion"><span>&nbsp;Connectez-vous</span></a>
         </p>
         <!--
         <div class="divider my-2">

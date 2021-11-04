@@ -1,23 +1,27 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import {confirmMDP} from "../../../../auth/validator/confirmMDP.validator";
+import {AuthenticationService} from "../../../auth/service";
 
 @Component({
-  selector: 'app-auth-register-v2',
-  templateUrl: './auth-register-v2.component.html',
-  styleUrls: ['./auth-register-v2.component.scss'],
+  selector: 'app-auth-login-v2',
+  templateUrl: './auth-login-v2.component.html',
+  styleUrls: ['./auth-login-v2.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AuthRegisterV2Component implements OnInit {
-  // Public
+export class AuthLoginV2Component implements OnInit {
+  //  Public
   public coreConfig: any;
-  public inscriptionForm: FormGroup;
+  public loginForm: FormGroup;
+  public loading = false;
   public submitted = false;
+  public returnUrl: string;
+  public error = '';
+  public passwordTextType: boolean;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -26,9 +30,18 @@ export class AuthRegisterV2Component implements OnInit {
    * Constructor
    *
    * @param {CoreConfigService} _coreConfigService
-   * @param {FormBuilder} _formBuilder
+   * @param _formBuilder
+   * @param _route
+   * @param _router
+   * @param _authenticationService
    */
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder) {
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private _formBuilder: FormBuilder,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _authenticationService: AuthenticationService,
+  ) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -51,19 +64,27 @@ export class AuthRegisterV2Component implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() {
-    return this.inscriptionForm.controls;
+    return this.loginForm.controls;
   }
 
   /**
-   * On Submit
+   * Toggle password
    */
-  onSignup() {
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
+
+  onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.inscriptionForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
+
+    // Login
+    this.loading = true;
+    this._authenticationService.login(this.f.email.value, this.f.password.value);
   }
 
   // Lifecycle Hooks
@@ -73,17 +94,13 @@ export class AuthRegisterV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.inscriptionForm = this._formBuilder.group({
-      sexe: ['', Validators.required],
-      prenom: ['', [Validators.required, Validators.pattern('[A-Za-zÀ-ÿ]*'), Validators.minLength(2)]],
-      nom: ['', [Validators.required, Validators.pattern('[A-Za-zÀ-ÿ]*'), Validators.minLength(2)]],
+    this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      motDePasse: ['', [Validators.required, Validators.minLength(6)]],
-      confirmMotDePasse: ['', Validators.required],
-      acceptCond: [false, Validators.requiredTrue],
-    },{
-      validators: confirmMDP('motDePasse', 'confirmMotDePasse')
-    })
+      password: ['', Validators.required]
+    });
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {

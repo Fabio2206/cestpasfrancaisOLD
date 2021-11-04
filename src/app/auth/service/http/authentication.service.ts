@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
 import { User, Role } from 'app/auth/models';
 import { ToastrService } from 'ngx-toastr';
-import { ConfigurationService } from "./configuration/config.service";
+import { ConfigurationService } from "../configuration/config.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,6 +15,7 @@ export class AuthenticationService {
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
+  private headers = new HttpHeaders();
 
   /**
    *
@@ -25,33 +26,34 @@ export class AuthenticationService {
    */
   constructor(private _http: HttpClient,
               private _toastrService: ToastrService,
-              private http: HttpClient,
               private _configService: ConfigurationService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.headers = this.headers.set('Content-Type', 'application/json; charset=utf-8');
+
   }
 
-  // getter: currentUserValue
+  // récupération de l'utilisateur en cours
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
   /**
-   *  Confirms if user is admin
+   *  Confirmation si l'utilisateur est un administrateur
    */
   get isAdmin() {
     return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
   }
 
   /**
-   *  Confirms if user is client
+   *  Confirmation si l'utilisateur est un professeur
    */
   get isClient() {
     return this.currentUser && this.currentUserSubject.value.role === Role.Client;
   }
 
   /**
-   * User login
+   * Connexion d'un utilisateur
    *
    * @param email
    * @param password
@@ -59,28 +61,8 @@ export class AuthenticationService {
    */
   login(email: string, password: string) {
 
-    return new Promise((resolve, reject) => {
-      this.http.post(this._configService.apiUrl + 'auth/connexion', { email: email, motDePasse: password })
-          // @ts-ignore
-          .subscribe((authData: { token: string, userId: string, nom: string, prenom: string, statut: number }) => {
-                //Recuperation du token
-                sessionStorage.setItem('token', authData.token);
-                sessionStorage.setItem('userId', authData.userId);
-
-                // @ts-ignore
-                this.currentUserSubject.next(authData);
-                console.log(authData);
-                resolve(authData);
-              },
-              (error) => {
-                reject(error);
-              }
-          );
-    });
-
-    /*
     return this._http
-      .post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
+      .post<any>(this._configService.apiUrl + 'auth/connexion', { email, password })
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
@@ -105,11 +87,42 @@ export class AuthenticationService {
 
           return user;
         })
-      );*/
+      );
   }
 
+    /**
+     * Création d'un utilisateur
+     *
+     */
+    createNewUser(user: User) {
+
+      return new Promise((resolve, reject) => {
+        this._http.post(this._configService.apiUrl + 'auth/inscription', user, {headers: this.headers}).subscribe(
+            (response) => {
+              console.log(response);
+
+              this._toastrService.success(
+                          'Super ! Votre inscription a bien été effectué. 🎉',
+                          '👋 Bienvenue',
+                          { toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 2500 },
+                      );
+              resolve(response);
+            },
+            (error) => {
+              this._toastrService.error(
+                  'Une erreur s\'est produite lors de votre inscription.',
+                  'Erreur',
+                  {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 2500},
+              );
+              reject(error);
+            }
+        );
+      });
+
+    }
+
   /**
-   * User logout
+   * Déconnexion d'un utilisateur
    *
    */
   logout() {

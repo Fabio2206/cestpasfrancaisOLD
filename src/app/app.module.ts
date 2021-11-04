@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -18,36 +17,28 @@ import { coreConfig } from 'app/app-config';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
+import { AppRoutingModule } from './app-routing.module';
 
-const appRoutes: Routes = [
-  {
-    path: 'pages',
-    loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
-  },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: '/pages/miscellaneous/error' //Error 404 - Page not found
-  }
-];
+// Composant
+import {ErreurComponent} from "./main/erreur/erreur.component";
+import {RouterModule} from "@angular/router";
+import {AuthLoginV2Component} from "./main/authentication/auth-login-v2/auth-login-v2.component";
+import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/auth-register-v2.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    ErreurComponent,
+    AuthLoginV2Component,
+    AuthRegisterV2Component,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes, {
-      scrollPositionRestoration: 'enabled', // Add options right here
-      relativeLinkResolution: 'legacy'
-    }),
     TranslateModule.forRoot(),
 
-    //NgBootstrap
+    // NgBootstrap
     NgbModule,
     ToastrModule.forRoot(),
 
@@ -59,7 +50,10 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
-    SampleModule
+    SampleModule,
+    AppRoutingModule,
+    RouterModule
+
   ],
 
   bootstrap: [AppComponent]
