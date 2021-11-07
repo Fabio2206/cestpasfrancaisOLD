@@ -7,6 +7,7 @@ import {ErreurComponent} from "./main/erreur/erreur.component";
 import {HomeComponent} from "./main/sample/home.component";
 import {AuthLoginV2Component} from "./main/authentication/auth-login-v2/auth-login-v2.component";
 import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/auth-register-v2.component";
+import {SampleComponent} from "./main/sample/sample.component";
 
 const appRoutes: Routes = [
 
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
   { path: 'inscription', component: AuthRegisterV2Component },
 
   /************************** Espace client **************************/
-
+  { path: 'sample', component: SampleComponent, data: { animation: 'sample'} },
+  { path: 'home', component: HomeComponent, data: { animation: 'home' }},
 
   /************************** Divers **************************/
   { path: '', component: AuthLoginV2Component },

@@ -16,7 +16,6 @@ import { coreConfig } from 'app/app-config';
 
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
 import { AppRoutingModule } from './app-routing.module';
 
 // Composant
@@ -24,6 +23,9 @@ import {ErreurComponent} from "./main/erreur/erreur.component";
 import {RouterModule} from "@angular/router";
 import {AuthLoginV2Component} from "./main/authentication/auth-login-v2/auth-login-v2.component";
 import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/auth-register-v2.component";
+import {SampleComponent} from "./main/sample/sample.component";
+import {HomeComponent} from "./main/sample/home.component";
+import {ContentHeaderModule} from "./layout/components/content-header/content-header.module";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/au
     ErreurComponent,
     AuthLoginV2Component,
     AuthRegisterV2Component,
+    SampleComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +54,9 @@ import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/au
 
     // App modules
     LayoutModule,
-    SampleModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    ContentHeaderModule
 
   ],
 

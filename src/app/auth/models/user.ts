@@ -1,7 +1,6 @@
 ﻿import { Role } from './role';
 
 export class User {
-  id: number;
   sexe: string = "";
   prenom: string = "";
   nom: string = "";

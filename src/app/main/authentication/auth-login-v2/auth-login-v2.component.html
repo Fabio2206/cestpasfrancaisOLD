@@ -14,11 +14,11 @@
               ? 'assets/images/pages/login-v2-dark.svg'
               : 'assets/images/pages/login-v2.svg'
           "
-          alt="Login V2"
-        />
+          alt="Login V2"/>
       </div>
     </div>
     <!-- /Left Text-->
+
     <!-- Login-->
     <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
@@ -33,17 +33,17 @@
 
         <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label class="form-label" for="login-email">Email</label>
+            <label class="form-label" for="connexion-email">Email</label>
             <input
-              type="text"
-              formControlName="email"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-              placeholder="admin@demo.com"
-              aria-describedby="login-email"
-              autofocus=""
-              tabindex="1"
-            />
+                    id="connexion-email"
+                    type="text"
+                    formControlName="email"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                    placeholder="louis@mail.com"
+                    aria-describedby="connexion-email"
+                    autofocus=""
+                    tabindex="1" />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
               <div *ngIf="f.email.errors.required">Une adresse email est requise.</div>
               <div *ngIf="f.email.errors.email">Une adresse email valide est requise.</div>
@@ -51,40 +51,40 @@
           </div>
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <label for="login-password">Mot de passe</label>
+              <label for="connexion-mot-de-passe">Mot de passe</label>
               <!--<a routerLink="/pages/authentication/forgot-password-v2"><small>Forgot Password?</small></a>-->
             </div>
             <div class="input-group input-group-merge form-password-toggle">
               <input
-                [type]="passwordTextType ? 'text' : 'password'"
-                formControlName="password"
-                class="form-control form-control-merge"
-                [ngClass]="{ 'is-invalid error': submitted && f.password.errors }"
-                placeholder="············"
-                aria-describedby="login-password"
-                tabindex="2"
-              />
+                      id="connexion-mot-de-passe"
+                      [type]="passwordTextType ? 'text' : 'password'"
+                      formControlName="motDePasse"
+                      class="form-control form-control-merge"
+                      [ngClass]="{ 'is-invalid error': submitted && f.motDePasse.errors }"
+                      placeholder="············"
+                      aria-describedby="connexion-mot-de-passe"
+                      tabindex="2"/>
               <div class="input-group-append">
-                <span class="input-group-text cursor-pointer"
-                  ><i
+                <span class="input-group-text cursor-pointer">
+                  <i
                     class="feather font-small-4"
                     [ngClass]="{
                       'icon-eye-off': passwordTextType,
                       'icon-eye': !passwordTextType
                     }"
-                    (click)="togglePasswordTextType()"
-                  ></i
-                ></span>
+                    (click)="togglePasswordTextType()">
+                  </i>
+                </span>
               </div>
             </div>
             <div
-              *ngIf="submitted && f.password.errors"
+              *ngIf="submitted && f.motDePasse.errors"
               class="invalid-feedback"
-              [ngClass]="{ 'd-block': submitted && f.password.errors }"
-            >
-              <div *ngIf="f.password.errors.required">Un mot de passe est requis.</div>
+              [ngClass]="{ 'd-block': submitted && f.motDePasse.errors }">
+              <div *ngIf="f.motDePasse.errors.required">Un mot de passe est requis.</div>
             </div>
           </div>
+
           <div class="form-group">
             <div class="custom-control custom-checkbox">
               <input class="custom-control-input" id="remember-me" type="checkbox" tabindex="3" />
@@ -92,7 +92,8 @@
             </div>
           </div>
           <button [disabled]="loading" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Connexion
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Connexion
           </button>
         </form>
 

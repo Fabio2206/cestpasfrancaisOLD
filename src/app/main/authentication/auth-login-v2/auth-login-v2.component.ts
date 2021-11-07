@@ -62,29 +62,36 @@ export class AuthLoginV2Component implements OnInit {
     };
   }
 
-  // convenience getter for easy access to form fields
+  // Récupération des données entrée dans le formulaire
   get f() {
     return this.loginForm.controls;
   }
 
-  /**
-   * Toggle password
-   */
+  // Affichage du mot de passe dans le formulaire
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }
 
+  // Lancement de la connexion
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
+    // On sort de la fonction si le formulaire est invalide
     if (this.loginForm.invalid) {
       return;
     }
 
-    // Login
+    // On lance la connexion
     this.loading = true;
-    this._authenticationService.login(this.f.email.value, this.f.password.value);
+    this._authenticationService.login(this.f.email.value, this.f.motDePasse.value).subscribe(
+        (data) => {
+          console.log(data);
+        },
+    (error)=> {
+          console.log(error);
+          this.loading = false;
+        }
+    );
   }
 
   // Lifecycle Hooks
@@ -96,7 +103,7 @@ export class AuthLoginV2Component implements OnInit {
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      motDePasse: ['', Validators.required]
     });
 
     // get return url from route parameters or default to '/'

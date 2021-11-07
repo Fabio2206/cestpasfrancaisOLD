@@ -5,14 +5,15 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: 'https://cestpasfrancais.herokuapp.com/'
+  apiUrl: 'http://localhost:5000'
+/*apiUrl: 'https://cestpasfrancais.herokuapp.com'*/
 };
 
 /*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related erreur stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an erreur is thrown.
- */
+* For easier debugging in development mode, you can import the following file
+* to ignore zone related erreur stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+*
+* This import should be commented out in production mode because it will have a negative impact
+* on performance if an erreur is thrown.
+*/
 // import 'zone.js/plugins/zone-erreur';  // Included with Angular CLI.

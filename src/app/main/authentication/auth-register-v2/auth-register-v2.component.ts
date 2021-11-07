@@ -6,8 +6,9 @@ import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
 import {confirmMDP} from "../../../auth/validator/confirmMDP.validator";
-import {User} from "../../../auth/models";
+import {Role, User} from "../../../auth/models";
 import {AuthenticationService} from "../../../auth/service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -32,10 +33,12 @@ export class AuthRegisterV2Component implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
    * @param _authentificationService
+   * @param _toastrService
    */
   constructor(private _coreConfigService: CoreConfigService,
               private _formBuilder: FormBuilder,
-              private _authentificationService: AuthenticationService) {
+              private _authentificationService: AuthenticationService,
+              private _toastrService: ToastrService) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -82,17 +85,22 @@ export class AuthRegisterV2Component implements OnInit {
       user.acceptCond = this.inscriptionForm.get('acceptCond')?.value;
       user.date = new Date();
 
-      this._authentificationService.createNewUser(user).then(
-          () => {
-            this.validInscription = true;
+      this._authentificationService.createNewUser(user).subscribe(
+          (response) => {
+            this._toastrService.success(
+                'Super ! Votre inscription a bien été effectué. 🎉',
+                '👋 Bienvenue',
+                { toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 5000 },
+            );
+          }, (error) => {
+            this._toastrService.error(
+                'Une erreur s\'est produite lors de votre inscription.',
+                'Erreur',
+                {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 5000 },
+            );
           }
-      ).catch(
-          (error) => {
-            if (error.error.nonAutorise){
-              this.erreurMessage = "Votre email n'est pas autorisé sur le site. Veuillez contacter l'administrateur pour faire une demande.";
-            }
-          }
-      );
+      )
+
     } else {
       this.erreurMessage = "Une erreur est survenue dans votre inscription. Veuillez réessayer.";
     }

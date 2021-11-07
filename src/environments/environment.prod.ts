@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   hmr: false,
-  apiUrl: 'https://cestpasfrancais.herokuapp.com/'
+  apiUrl: 'http://localhost:5000'
+  /*apiUrl: 'https://cestpasfrancais.herokuapp.com'*/
 };
