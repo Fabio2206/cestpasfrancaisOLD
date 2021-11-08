@@ -26,6 +26,7 @@ import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/au
 import {SampleComponent} from "./main/sample/sample.component";
 import {HomeComponent} from "./main/sample/home.component";
 import {ContentHeaderModule} from "./layout/components/content-header/content-header.module";
+import { EmailVerificationComponent } from './main/email-verification/email-verification.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {ContentHeaderModule} from "./layout/components/content-header/content-he
     AuthLoginV2Component,
     AuthRegisterV2Component,
     SampleComponent,
-    HomeComponent
+    HomeComponent,
+    EmailVerificationComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import {confirmMDP} from "../../../auth/validator/confirmMDP.validator";
 import {Role, User} from "../../../auth/models";
 import {AuthenticationService} from "../../../auth/service";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -22,7 +23,6 @@ export class AuthRegisterV2Component implements OnInit {
   public inscriptionForm: FormGroup;
   public submitted = false;
   public erreurMessage: string;
-  public validInscription: boolean;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -34,11 +34,13 @@ export class AuthRegisterV2Component implements OnInit {
    * @param {FormBuilder} _formBuilder
    * @param _authentificationService
    * @param _toastrService
+   * @param router
    */
   constructor(private _coreConfigService: CoreConfigService,
               private _formBuilder: FormBuilder,
               private _authentificationService: AuthenticationService,
-              private _toastrService: ToastrService) {
+              private _toastrService: ToastrService,
+              private router: Router) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -92,6 +94,9 @@ export class AuthRegisterV2Component implements OnInit {
                 '👋 Bienvenue',
                 { toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 5000 },
             );
+            //ENVOYER L'EMAIL
+            this.router.navigate(['/verification']);
+
           }, (error) => {
             this._toastrService.error(
                 'Une erreur s\'est produite lors de votre inscription.',
