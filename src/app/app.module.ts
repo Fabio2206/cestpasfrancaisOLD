@@ -7,6 +7,8 @@ import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
+import {ContentHeaderModule} from "./layout/components/content-header/content-header.module";
+import {RouterModule} from "@angular/router";
 
 import { CoreModule } from '@core/core.module';
 import { CoreCommonModule } from '@core/common.module';
@@ -20,13 +22,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Composant
 import {ErreurComponent} from "./main/erreur/erreur.component";
-import {RouterModule} from "@angular/router";
-import {AuthLoginV2Component} from "./main/authentication/auth-login-v2/auth-login-v2.component";
-import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/auth-register-v2.component";
-import {SampleComponent} from "./main/sample/sample.component";
-import {HomeComponent} from "./main/sample/home.component";
-import {ContentHeaderModule} from "./layout/components/content-header/content-header.module";
-import { EmailVerificationComponent } from './main/email-verification/email-verification.component';
+import {AuthLoginV2Component} from "./main/authentification/connexion/auth-login-v2.component";
+import {AuthRegisterV2Component} from "./main/authentification/inscription/auth-register-v2.component";
+import {SampleComponent} from "./main/home/sample/sample.component";
+import {HomeComponent} from "./main/home/sample/home.component";
+import { ConfirmationCompteComponent } from './main/authentification/confirmation-compte/confirmation-compte.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { EmailVerificationComponent } from './main/email-verification/email-veri
     AuthRegisterV2Component,
     SampleComponent,
     HomeComponent,
-    EmailVerificationComponent
+    ConfirmationCompteComponent
   ],
   imports: [
     BrowserModule,

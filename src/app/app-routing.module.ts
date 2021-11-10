@@ -4,18 +4,18 @@ import {RouterModule, Routes} from "@angular/router";
 
 // Composants
 import {ErreurComponent} from "./main/erreur/erreur.component";
-import {HomeComponent} from "./main/sample/home.component";
-import {AuthLoginV2Component} from "./main/authentication/auth-login-v2/auth-login-v2.component";
-import {AuthRegisterV2Component} from "./main/authentication/auth-register-v2/auth-register-v2.component";
-import {SampleComponent} from "./main/sample/sample.component";
-import {EmailVerificationComponent} from "./main/email-verification/email-verification.component";
+import {HomeComponent} from "./main/home/sample/home.component";
+import {AuthLoginV2Component} from "./main/authentification/connexion/auth-login-v2.component";
+import {AuthRegisterV2Component} from "./main/authentification/inscription/auth-register-v2.component";
+import {SampleComponent} from "./main/home/sample/sample.component";
+import {ConfirmationCompteComponent} from "./main/authentification/confirmation-compte/confirmation-compte.component";
 
 const appRoutes: Routes = [
 
   /************************** Application **************************/
   { path: 'connexion', component: AuthLoginV2Component },
   { path: 'inscription', component: AuthRegisterV2Component },
-  { path: 'verification', component: EmailVerificationComponent },
+  { path: 'confirmation/:codeInscription', component: ConfirmationCompteComponent },
 
   /************************** Espace client **************************/
   { path: 'sample', component: SampleComponent, data: { animation: 'sample'} },

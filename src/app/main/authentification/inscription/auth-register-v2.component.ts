@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
 import {confirmMDP} from "../../../auth/validator/confirmMDP.validator";
-import {Role, User} from "../../../auth/models";
+import {User} from "../../../auth/models";
 import {AuthenticationService} from "../../../auth/service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
@@ -23,6 +23,9 @@ export class AuthRegisterV2Component implements OnInit {
   public inscriptionForm: FormGroup;
   public submitted = false;
   public erreurMessage: string;
+
+  //Affichage du div pour avertir qu'un email a été envoyé
+  public validerEmail: boolean = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -82,7 +85,7 @@ export class AuthRegisterV2Component implements OnInit {
       user.sexe = this.inscriptionForm.get('sexe')?.value;
       user.prenom = this.inscriptionForm.get('prenom')?.value;
       user.nom = this.inscriptionForm.get('nom')?.value;
-      user.email = this.inscriptionForm.get('email')?.value;
+      user.email = this.inscriptionForm.get('email')?.value.toLowerCase();
       user.motDePasse = this.inscriptionForm.get('motDePasse')?.value;
       user.acceptCond = this.inscriptionForm.get('acceptCond')?.value;
       user.date = new Date();
@@ -94,9 +97,8 @@ export class AuthRegisterV2Component implements OnInit {
                 '👋 Bienvenue',
                 { toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 5000 },
             );
-            //ENVOYER L'EMAIL
-            this.router.navigate(['/verification']);
 
+            this.validerEmail = true;
           }, (error) => {
             this._toastrService.error(
                 'Une erreur s\'est produite lors de votre inscription.',

@@ -1,0 +1,43 @@
+<div class="auth-wrapper auth-v2">
+    <div class="auth-inner row m-0">
+        <!-- Brand logo-->
+        <a class="brand-logo" href="javascript:void(0);">
+        <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+        <h2 class="brand-text text-primary ml-1">Cestpasfrancais</h2></a>
+        <!-- /Brand logo-->
+
+        <!-- Left Text-->
+        <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+                <img
+                        class="img-fluid"
+                        [src]="
+            coreConfig.layout.skin === 'dark'
+              ? 'assets/images/pages/coming-soon-dark.svg'
+              : 'assets/images/pages/coming-soon.svg'
+          "
+                        alt="Register V2"
+                />
+            </div>
+        </div>
+        <!-- /Left Text-->
+
+        <!-- verify email v2-->
+        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" *ngIf="!codeRefus">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+                <h2 class="card-title fw-bolder mb-1">Vérification d'adresse email</h2>
+                <p class="card-text mb-2">Bravo, vous êtes désormais inscrit(e) sur le site.</p>
+                <p class="card-text mb-2">Vous allez être automatiquement redirigé vers la page de connexion. Veuillez ne pas recharger la page.</p>
+            </div>
+        </div>
+
+        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" *ngIf="codeRefus">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+                <h2 class="card-title fw-bolder mb-1">Malheureusement ce lien n'est plus valide. Veuillez retourner sur l'application pour faire la demande d'un nouveau lien.</h2>
+                <a class="btn btn-primary w-100" [routerLink]="['/']">Vers la connexion</a>
+            </div>
+        </div>
+        <!-- verify email-->
+
+    </div>
+</div>

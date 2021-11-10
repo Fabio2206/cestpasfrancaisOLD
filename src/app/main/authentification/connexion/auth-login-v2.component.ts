@@ -74,6 +74,7 @@ export class AuthLoginV2Component implements OnInit {
 
   // Lancement de la connexion
   onSubmit() {
+
     this.submitted = true;
 
     // On sort de la fonction si le formulaire est invalide
@@ -83,7 +84,7 @@ export class AuthLoginV2Component implements OnInit {
 
     // On lance la connexion
     this.loading = true;
-    this._authenticationService.login(this.f.email.value, this.f.motDePasse.value).subscribe(
+    this._authenticationService.login(this.f.email.value.toLowerCase(), this.f.motDePasse.value).subscribe(
         (data) => {
           console.log(data);
         },

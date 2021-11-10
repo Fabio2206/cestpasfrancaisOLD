@@ -11,8 +11,10 @@ import {ConfigService} from "../../helpers/config.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+
   //public
   public currentUser: Observable<User>;
+  public emailInscription: string;
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
@@ -76,9 +78,22 @@ export class AuthenticationService {
   /**
    * Création d'un utilisateur
    *
+   * @param user
    */
   createNewUser(user: User): Observable<User> {
     return this._http.post<any>(`${environment.apiUrl}/auth/inscription`, user, {headers: this.headers, observe:'body', responseType: 'json'})
+        .pipe(catchError(this._configService.handleError))
+  }
+
+  /**
+   * Activation du compte
+   *
+   * @param codeInscription
+   */
+  confirmEmail(codeInscription: string) {
+    return this._http.post<any>(`${environment.apiUrl}/auth/confirmation/`,
+        {codeInscription: codeInscription},
+        {headers: this.headers, observe:'body', responseType: 'json'})
         .pipe(catchError(this._configService.handleError))
   }
 

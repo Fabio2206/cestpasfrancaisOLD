@@ -23,7 +23,7 @@
     <!-- /Left Text-->
 
     <!-- Register-->
-    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" *ngIf="!validerEmail">
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
         <h2 class="card-title font-weight-bold mb-1">L'aventure commence ici 🚀</h2>
         <p class="card-text mb-2">Créez votre compte gratuitement dès maintenant et profiter de nos services.</p>
@@ -176,5 +176,17 @@
       </div>
     </div>
     <!-- /Register-->
+
+    <!-- verify email v2-->
+    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" *ngIf="validerEmail">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <h2 class="card-title fw-bolder mb-1">Vérifiez vos emails &#x2709;&#xFE0F;</h2>
+        <p class="card-text mb-2">Nous vous avons envoyé un email pour confirmer votre comptre sur l'adresse suivante:<span class="fw-bolder"> {{f.email.value}}</span></p>
+        <p class="card-text mb-2">Merci de bien vouloir cliquer sur le lien de confirmation dans l'email pour activer votre compte.</p>
+        <a class="btn btn-primary w-100" [routerLink]="['/']">Vers la connexion</a>
+      </div>
+    </div>
+    <!-- verify email-->
+
   </div>
 </div>
