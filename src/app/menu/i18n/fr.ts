@@ -2,8 +2,8 @@ export const locale = {
   lang: 'fr',
   data: {
     MENU: {
-      HOME: 'Tableau de bord',
-      SAMPLE: 'Échantillon'
+      ACCUEIL: 'Tableau de bord',
+      PROFIL: 'Profil'
     }
   }
 }

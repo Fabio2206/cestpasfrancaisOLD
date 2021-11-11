@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { CoreConfigService } from '@core/services/config.service';
 import {confirmMDP} from "../../../auth/validator/confirmMDP.validator";
 import {User} from "../../../auth/models";
-import {AuthenticationService} from "../../../auth/service";
+import {AuthenticationService} from "../../../auth/services";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 
@@ -90,7 +90,7 @@ export class AuthRegisterV2Component implements OnInit {
       user.acceptCond = this.inscriptionForm.get('acceptCond')?.value;
       user.date = new Date();
 
-      this._authentificationService.createNewUser(user).subscribe(
+      this._authentificationService.inscription(user).subscribe(
           (response) => {
             this._toastrService.success(
                 'Super ! Votre inscription a bien été effectué. 🎉',

@@ -2,8 +2,8 @@ export const locale = {
   lang: 'en',
   data: {
     MENU: {
-      HOME: 'Home',
-      SAMPLE: 'Sample'
+      ACCUEIL: 'Dashboard',
+      PROFIL: 'Profile'
     }
   }
 }

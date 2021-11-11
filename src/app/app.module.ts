@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,25 +18,29 @@ import { coreConfig } from 'app/app-config';
 
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
+import {JwtInterceptor} from "./auth/interceptors/jwt.interceptor";
 import { AppRoutingModule } from './app-routing.module';
 
 // Composant
-import {ErreurComponent} from "./main/erreur/erreur.component";
+import {MauvaisePageComponent} from "./main/erreur/mauvaise-page/mauvaise-page.component";
 import {AuthLoginV2Component} from "./main/authentification/connexion/auth-login-v2.component";
 import {AuthRegisterV2Component} from "./main/authentification/inscription/auth-register-v2.component";
-import {SampleComponent} from "./main/home/sample/sample.component";
-import {HomeComponent} from "./main/home/sample/home.component";
 import { ConfirmationCompteComponent } from './main/authentification/confirmation-compte/confirmation-compte.component';
+import { InterdictionComponent } from './main/erreur/interdiction/interdiction.component';
+import {ErrorInterceptor} from "./auth/interceptors/error.interceptor";
+import { ProfilComponent } from './main/home/profil/profil.component';
+import { AccueilComponent } from './main/home/accueil/accueil.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErreurComponent,
+    MauvaisePageComponent,
     AuthLoginV2Component,
     AuthRegisterV2Component,
-    SampleComponent,
-    HomeComponent,
-    ConfirmationCompteComponent
+    ConfirmationCompteComponent,
+    InterdictionComponent,
+    ProfilComponent,
+    AccueilComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +63,12 @@ import { ConfirmationCompteComponent } from './main/authentification/confirmatio
     AppRoutingModule,
     RouterModule,
     ContentHeaderModule
-
   ],
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ]
 })
 export class AppModule {}

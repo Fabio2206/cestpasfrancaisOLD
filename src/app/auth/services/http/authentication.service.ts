@@ -5,16 +5,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import { User, Role } from 'app/auth/models';
-import { ToastrService } from 'ngx-toastr';
 import {environment} from "../../../../environments/environment";
-import {ConfigService} from "../../helpers/config.service";
+import {ConfigService} from "../configuration/config.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
   //public
   public currentUser: Observable<User>;
-  public emailInscription: string;
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
@@ -24,11 +22,9 @@ export class AuthenticationService {
 
   /**
    * @param {HttpClient} _http
-   * @param {ToastrService} _toastrService
    * @param _configService
    */
   constructor(private _http: HttpClient,
-              private _toastrService: ToastrService,
               private _configService: ConfigService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -56,9 +52,9 @@ export class AuthenticationService {
    * @param motDePasse
    * @returns user
    */
-  login(email: string, motDePasse: string) {
+  connexion(email: string, motDePasse: string) {
     return this._http
-      .post<any>(`${environment.apiUrl}/auth/connexion`, { email, motDePasse })
+      .post<any>(`${environment.apiUrl}/auth/connection`, { email, motDePasse })
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
@@ -66,7 +62,7 @@ export class AuthenticationService {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
 
-            // notify
+            // mise à jour avec l'utilisateur connecté
             this.currentUserSubject.next(user);
           }
 
@@ -80,8 +76,8 @@ export class AuthenticationService {
    *
    * @param user
    */
-  createNewUser(user: User): Observable<User> {
-    return this._http.post<any>(`${environment.apiUrl}/auth/inscription`, user, {headers: this.headers, observe:'body', responseType: 'json'})
+  inscription(user: User): Observable<User> {
+    return this._http.post<any>(`${environment.apiUrl}/auth/registration`, user, {headers: this.headers, observe:'body', responseType: 'json'})
         .pipe(catchError(this._configService.handleError))
   }
 
@@ -101,8 +97,8 @@ export class AuthenticationService {
    * Déconnexion d'un utilisateur
    *
    */
-  logout() {
-    // remove user from local storage to log user out
+  deconnexion() {
+    // suppression du compte utilisateur enregistré dans le localstorage
     localStorage.removeItem('currentUser');
     // notify
     this.currentUserSubject.next(null);

@@ -3,7 +3,7 @@ import {Subject} from "rxjs";
 import {CoreConfigService} from "../../../../@core/services/config.service";
 import {takeUntil} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthenticationService} from "../../../auth/service";
+import {AuthenticationService} from "../../../auth/services";
 
 @Component({
   selector: 'app-confirmation-compte',
@@ -14,8 +14,15 @@ export class ConfirmationCompteComponent implements OnInit {
 
   // Public
   public coreConfig: any;
+
+  // Variable à true si le compte a bien été validé
   codeAccept: boolean = false;
-  codeRefus: boolean = false;
+
+  // Variable à true si le token n'est plus valide
+  codeRefusToken: boolean = false;
+
+  // Variable à true si le token n'est pas correct (utilisateur n'existe pas)
+  codeRefusUser: boolean = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -64,9 +71,24 @@ export class ConfirmationCompteComponent implements OnInit {
 
       this._authenticationService.confirmEmail(codeInscription).subscribe(
           (response) => {
+            if (response.null){
+              this.codeRefusUser = true;
+            }
+
+            if (response.badToken){
+              this.codeRefusToken = true;
+            }
+
+            if (response.valid){
+              this.codeAccept = true;
+
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 3000);
+            }
 
           }, (error) => {
-
+            console.log(error);
           }
       )
 

@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sample',
-  templateUrl: './sample.component.html',
-  styleUrls: ['./sample.component.scss']
+  selector: 'app-profil',
+  templateUrl: './profil.component.html',
+  styleUrls: ['./profil.component.scss']
 })
-export class SampleComponent implements OnInit {
-  public contentHeader: object
+export class ProfilComponent implements OnInit {
+// public
+  public contentHeader: object;
 
-  /**
-   *
-   */
   constructor() {
 
   }
@@ -23,23 +21,22 @@ export class SampleComponent implements OnInit {
    */
   ngOnInit() {
     this.contentHeader = {
-      headerTitle: 'Home',
+      headerTitle: 'Profil',
       actionButton: true,
       breadcrumb: {
         type: '',
         links: [
           {
-            name: 'Home',
+            name: 'Accueil',
             isLink: true,
-            link: '/'
+            link: '/accueil'
           },
           {
-            name: 'Sample',
+            name: 'Profil',
             isLink: false
           }
         ]
       }
-    }
+    };
   }
-
 }

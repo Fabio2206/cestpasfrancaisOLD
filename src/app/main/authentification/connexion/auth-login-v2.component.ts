@@ -5,7 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import {AuthenticationService} from "../../../auth/service";
+import {AuthenticationService} from "../../../auth/services";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -34,6 +35,7 @@ export class AuthLoginV2Component implements OnInit {
    * @param _route
    * @param _router
    * @param _authenticationService
+   * @param _toastrService
    */
   constructor(
     private _coreConfigService: CoreConfigService,
@@ -41,6 +43,7 @@ export class AuthLoginV2Component implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _authenticationService: AuthenticationService,
+    private _toastrService: ToastrService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -74,19 +77,33 @@ export class AuthLoginV2Component implements OnInit {
 
   // Lancement de la connexion
   onSubmit() {
-
     this.submitted = true;
+    this.loading = true;
 
     // On sort de la fonction si le formulaire est invalide
     if (this.loginForm.invalid) {
+      this.loading = false;
       return;
     }
 
-    // On lance la connexion
-    this.loading = true;
-    this._authenticationService.login(this.f.email.value.toLowerCase(), this.f.motDePasse.value).subscribe(
+    this._authenticationService.connexion(this.f.email.value.toLowerCase(), this.f.motDePasse.value).subscribe(
         (data) => {
-          console.log(data);
+          if (data.badUser){
+            this._toastrService.error(
+                'Mauvais mot de passe ou adresse email.',
+                'Erreur !',
+                {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 5000 },
+            );
+          } else {
+            this._toastrService.success(
+                'Super, vous êtes bien connecté. 🎉',
+                '👋 Bonjour, ' + JSON.parse(localStorage.getItem('currentUser')).prenom,
+                { toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 3000 },
+            );
+            this._router.navigate(['/accueil']);
+          }
+
+          this.loading = false;
         },
     (error)=> {
           console.log(error);
@@ -102,12 +119,17 @@ export class AuthLoginV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    // Redirection automatique si l'utilisateur est déjà connecté
+    if (this._authenticationService.currentUserValue) {
+      this._router.navigate(['/accueil']);
+    }
+
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       motDePasse: ['', Validators.required]
     });
 
-    // get return url from route parameters or default to '/'
+    // Récupération d'un lien en paramètre lors de la connexion iminente ou redirection à la connexion
     this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
     // Subscribe to config changes
