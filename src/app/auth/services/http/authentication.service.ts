@@ -7,6 +7,7 @@ import {catchError, map} from 'rxjs/operators';
 import { User, Role } from 'app/auth/models';
 import {environment} from "../../../../environments/environment";
 import {ConfigService} from "../configuration/config.service";
+import jwt_decode from "jwt-decode";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -62,7 +63,7 @@ export class AuthenticationService {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
 
-            // mise à jour avec l'utilisateur connecté
+            // Mise à jour avec l'utilisateur connecté
             this.currentUserSubject.next(user);
           }
 
