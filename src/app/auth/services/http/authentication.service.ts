@@ -7,7 +7,6 @@ import {catchError, map} from 'rxjs/operators';
 import { User, Role } from 'app/auth/models';
 import {environment} from "../../../../environments/environment";
 import {ConfigService} from "../configuration/config.service";
-import jwt_decode from "jwt-decode";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -18,7 +17,8 @@ export class AuthenticationService {
   //private
   private currentUserSubject: BehaviorSubject<User>;
   private headers = new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'charset': 'utf-8'
   });
 
   /**
@@ -78,7 +78,7 @@ export class AuthenticationService {
    * @param user
    */
   inscription(user: User): Observable<User> {
-    return this._http.post<any>(`${environment.apiUrl}/auth/registration`, user, {headers: this.headers, observe:'body', responseType: 'json'})
+    return this._http.post<any>(`${environment.apiUrl}/auth/registration`, user, {headers: this.headers})
         .pipe(catchError(this._configService.handleError))
   }
 
@@ -88,9 +88,27 @@ export class AuthenticationService {
    * @param codeInscription
    */
   confirmEmail(codeInscription: string) {
-    return this._http.post<any>(`${environment.apiUrl}/auth/confirmation/`,
-        {codeInscription: codeInscription},
-        {headers: this.headers, observe:'body', responseType: 'json'})
+    return this._http.post<any>(`${environment.apiUrl}/auth/confirmation`, {codeInscription: codeInscription}, {headers: this.headers})
+        .pipe(catchError(this._configService.handleError))
+  }
+
+  /**
+   * Récupération des informations de l'utilisateur en cours
+   *
+   */
+  getCurrentUser(){
+    return this._http.get<User>(`${environment.apiUrl}/auth/getCurrentUser`, {headers: this.headers})
+        .pipe(catchError(this._configService.handleError))
+  }
+
+  /**
+   * Channgement du mot de passe
+   *
+   */
+  newPwd(oldPassword: string, newPassword: string) {
+    return this._http.put<any>(`${environment.apiUrl}/auth/changePassword`,
+        {oldPassword, newPassword},
+        {headers: this.headers})
         .pipe(catchError(this._configService.handleError))
   }
 

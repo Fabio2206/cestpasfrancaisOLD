@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FlatpickrOptions} from "ng2-flatpickr";
 import {Subject} from "rxjs";
 import {AuthenticationService} from "../../../auth/services";
-import {log} from "util";
+import {User} from "../../../auth/models";
+import {FormBuilder, Validators} from "@angular/forms";
+import {confirmMDP} from "../../../auth/validator/confirmMDP.validator";
+import {ToastrService} from "ngx-toastr";
+import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
 
 @Component({
   selector: 'app-profil',
@@ -12,25 +15,30 @@ import {log} from "util";
 
 export class ProfilComponent implements OnInit {
   // public
-  public dataUser: any;
+  public dataUser: User;
+  public chargement: boolean = false;
   public contentHeader: object;
-  public birthDateOptions: FlatpickrOptions = {
-    altInput: true
-  };
 
   public passwordTextTypeOld = false;
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
-  public avatarImage: string;
 
   // private
   private _unsubscribeAll: Subject<any>;
+
+  formMDP = this.formBuilder.group({
+    ancienMotDePasse: ['', Validators.required],
+    nouveauMotDePasse: ['', [Validators.required, Validators.minLength(6)]],
+    confirmMotDePasse: ['', Validators.required]
+  },{
+    validators: confirmMDP('nouveauMotDePasse', 'confirmMotDePasse')
+  })
 
   /**
    * Constructor
    *
    */
-  constructor(private _authentification: AuthenticationService) {
+  constructor(private _authentification: AuthenticationService, private formBuilder: FormBuilder, private _toastrService: ToastrService) {
     this._unsubscribeAll = new Subject();
   }
 
@@ -58,20 +66,36 @@ export class ProfilComponent implements OnInit {
     this.passwordTextTypeRetype = !this.passwordTextTypeRetype;
   }
 
-  /**
-   * Upload Image
-   *
-   * @param event
-   */
-  uploadImage(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
+  onSubmit(){
+    if (this.formMDP.valid) {
+      const ancienMotDePasse = this.formMDP.get('ancienMotDePasse')?.value;
+      const nouveauMotDePasse = this.formMDP.get('nouveauMotDePasse')?.value;
 
-      reader.onload = (event: any) => {
-        this.avatarImage = event.target.result;
-      };
+      this._authentification.newPwd(ancienMotDePasse,nouveauMotDePasse).subscribe(r=>{
+        // Si tout est correct
+        if (r.value){
+          this._toastrService.success(
+              'Votre mot de passe a bien été modifié.',
+              'Modification effectué !',
+              {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 3000 },
+          );
+        }
 
-      reader.readAsDataURL(event.target.files[0]);
+        // Si l'ancien mot de passe ne correspond pas
+        if (r.badPwd){
+          this._toastrService.error(
+              'Erreur dans le formulaire.',
+              'Erreur !',
+              {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 3000 },
+          );
+        }
+      })
+    } else {
+      this._toastrService.error(
+          'Erreur dans le formulaire.',
+          'Erreur !',
+          {toastClass: 'toast ngx-toastr', closeButton: true, timeOut: 3000 },
+      );
     }
   }
 
@@ -101,10 +125,12 @@ export class ProfilComponent implements OnInit {
         ]
       }
     };
-/*
+
+    this.chargement = true;
     this._authentification.getCurrentUser().subscribe(r => {
       this.dataUser = r;
-    })*/
+      this.chargement = false;
+    })
   }
 
   /**

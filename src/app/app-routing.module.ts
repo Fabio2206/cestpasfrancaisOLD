@@ -22,7 +22,7 @@ const appRoutes: Routes = [
 
   /************************** Espace client **************************/
   { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn' }},
-  { path: 'profil', component: ProfilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn', roles: [Role.Admin] }},
+  { path: 'profil', component: ProfilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn' }},
 
   /************************** Divers **************************/
   { path: 'interdiction', component: InterdictionComponent },
