@@ -30,6 +30,7 @@ import { InterdictionComponent } from './main/erreur/interdiction/interdiction.c
 import {ErrorInterceptor} from "./auth/interceptors/error.interceptor";
 import { ProfilComponent } from './main/home/profil/profil.component';
 import { AccueilComponent } from './main/home/accueil/accueil.component';
+import { AutorisationComponent } from './main/home/administrateur/gestion/autorisation/autorisation.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AccueilComponent } from './main/home/accueil/accueil.component';
     ConfirmationCompteComponent,
     InterdictionComponent,
     ProfilComponent,
-    AccueilComponent
+    AccueilComponent,
+    AutorisationComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,16 @@ export const locale = {
   data: {
     MENU: {
       ACCUEIL: 'Dashboard',
-      PROFIL: 'Profile'
+      PROFIL: 'Profile',
+      ADMINISTRATEUR: {
+        COLLAPSIBLE: 'Management',
+        AUTORISATION: 'Authorisation'
+      },
+      FICHE: {
+        COLLAPSIBLE: 'Fiche',
+        AJOUTER: 'Add',
+        LISTER: 'List'
+      }
     }
   }
 }

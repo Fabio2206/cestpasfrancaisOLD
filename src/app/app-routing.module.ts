@@ -12,6 +12,7 @@ import {InterdictionComponent} from "./main/erreur/interdiction/interdiction.com
 import {AuthGuard} from "./auth/guards/auth.guards";
 import {ProfilComponent} from "./main/home/profil/profil.component";
 import {AccueilComponent} from "./main/home/accueil/accueil.component";
+import {AutorisationComponent} from "./main/home/administrateur/gestion/autorisation/autorisation.component";
 
 const appRoutes: Routes = [
 
@@ -23,6 +24,9 @@ const appRoutes: Routes = [
   /************************** Espace client **************************/
   { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn' }},
   { path: 'profil', component: ProfilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn' }},
+
+  /************************** Espace administrateur **************************/
+  { path: 'administrateur/gestion/autorisation', component: AutorisationComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn', roles: Role.Admin }},
 
   /************************** Divers **************************/
   { path: 'interdiction', component: InterdictionComponent },
