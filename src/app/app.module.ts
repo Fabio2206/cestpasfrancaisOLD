@@ -31,6 +31,8 @@ import {ErrorInterceptor} from "./auth/interceptors/error.interceptor";
 import { ProfilComponent } from './main/home/profil/profil.component';
 import { AccueilComponent } from './main/home/accueil/accueil.component';
 import { AutorisationComponent } from './main/home/administrateur/gestion/autorisation/autorisation.component';
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [
@@ -44,28 +46,30 @@ import { AutorisationComponent } from './main/home/administrateur/gestion/autori
     AccueilComponent,
     AutorisationComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    TranslateModule.forRoot(),
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        TranslateModule.forRoot(),
 
-    // NgBootstrap
-    NgbModule,
-    ToastrModule.forRoot(),
+        // NgBootstrap
+        NgbModule,
+        ToastrModule.forRoot(),
 
-    // Core modules
-    CoreModule.forRoot(coreConfig),
-    CoreCommonModule,
-    CoreSidebarModule,
-    CoreThemeCustomizerModule,
+        // Core modules
+        CoreModule.forRoot(coreConfig),
+        CoreCommonModule,
+        CoreSidebarModule,
+        CoreThemeCustomizerModule,
 
-    // App modules
-    LayoutModule,
-    AppRoutingModule,
-    RouterModule,
-    ContentHeaderModule
-  ],
+        // App modules
+        LayoutModule,
+        AppRoutingModule,
+        RouterModule,
+        ContentHeaderModule,
+        NgxDatatableModule,
+        NgSelectModule
+    ],
 
   bootstrap: [AppComponent],
   providers: [
