@@ -33,6 +33,7 @@ import { AccueilComponent } from './main/home/accueil/accueil.component';
 import { AutorisationComponent } from './main/home/administrateur/gestion/autorisation/autorisation.component';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {NgSelectModule} from "@ng-select/ng-select";
+import { AjouterAutorisationComponent } from './main/home/administrateur/gestion/ajouter-autorisation/ajouter-autorisation.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
     InterdictionComponent,
     ProfilComponent,
     AccueilComponent,
-    AutorisationComponent
+    AutorisationComponent,
+    AjouterAutorisationComponent
   ],
     imports: [
         BrowserModule,

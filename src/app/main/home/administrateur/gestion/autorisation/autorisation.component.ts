@@ -61,12 +61,12 @@ export class AutorisationComponent implements OnInit {
   /**
    * Constructor
    *
+   * @param _utilisateurService
    * @param {CoreConfigService} _coreConfigService
-   * @param {UserListService} _userListService
    * @param {CoreSidebarService} _coreSidebarService
    */
   constructor(
-      private _userListService: UtilisateurService,
+      private _utilisateurService: UtilisateurService,
       private _coreSidebarService: CoreSidebarService,
       private _coreConfigService: CoreConfigService
   ) {
@@ -179,13 +179,13 @@ export class AutorisationComponent implements OnInit {
       //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
       if (config.layout.animation === 'zoomIn') {
         setTimeout(() => {
-          this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+          this._utilisateurService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             this.rows = response;
             this.tempData = this.rows;
           });
         }, 450);
       } else {
-        this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+        this._utilisateurService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
           this.rows = response;
           this.tempData = this.rows;
         });

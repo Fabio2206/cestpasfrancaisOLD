@@ -13,6 +13,7 @@ import {AuthGuard} from "./auth/guards/auth.guards";
 import {ProfilComponent} from "./main/home/profil/profil.component";
 import {AccueilComponent} from "./main/home/accueil/accueil.component";
 import {AutorisationComponent} from "./main/home/administrateur/gestion/autorisation/autorisation.component";
+import {UtilisateurService} from "./auth/services/http/utilisateur.service";
 
 const appRoutes: Routes = [
 
@@ -26,7 +27,10 @@ const appRoutes: Routes = [
   { path: 'profil', component: ProfilComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn' }},
 
   /************************** Espace administrateur **************************/
-  { path: 'administrateur/gestion/autorisation', component: AutorisationComponent, canActivate: [AuthGuard], data: { animation: 'fadeIn', roles: Role.Admin }},
+  { path: 'administrateur/gestion/autorisation', component: AutorisationComponent,
+    canActivate: [AuthGuard],
+    data: { animation: 'fadeIn', roles: Role.Admin },
+    resolve: {uls: UtilisateurService}},
 
   /************************** Divers **************************/
   { path: 'interdiction', component: InterdictionComponent },
