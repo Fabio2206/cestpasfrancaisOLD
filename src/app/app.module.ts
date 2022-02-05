@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import 'hammerjs';
+import { QuillModule } from 'ngx-quill'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
@@ -63,6 +64,11 @@ import { AjouterAutorisationComponent } from './main/home/administrateur/gestion
         CoreCommonModule,
         CoreSidebarModule,
         CoreThemeCustomizerModule,
+        QuillModule.forRoot({
+            modules: {
+                syntax: true
+            }
+        }),
 
         // App modules
         LayoutModule,

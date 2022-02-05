@@ -24,11 +24,9 @@ export class AutorisationComponent implements OnInit {
 
   public selectRole: any = [
     { name: 'All', value: '' },
-    { name: 'Admin', value: 'Admin' },
-    { name: 'Author', value: 'Author' },
-    { name: 'Editor', value: 'Editor' },
-    { name: 'Maintainer', value: 'Maintainer' },
-    { name: 'Subscriber', value: 'Subscriber' }
+    { name: 'Administrateur', value: 'Administrateur' },
+    { name: 'Professeur', value: 'Professeur' },
+    { name: 'Utilisateur', value: 'Utilisateur' }
   ];
 
   public selectPlan: any = [
@@ -41,9 +39,8 @@ export class AutorisationComponent implements OnInit {
 
   public selectStatus: any = [
     { name: 'All', value: '' },
-    { name: 'Pending', value: 'Pending' },
-    { name: 'Active', value: 'Active' },
-    { name: 'Inactive', value: 'Inactive' }
+    { name: 'Inactif', value: 'Inactif' },
+    { name: 'Actif', value: 'Actif' }
   ];
 
   public selectedRole = [];

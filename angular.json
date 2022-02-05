@@ -46,7 +46,10 @@
               "node_modules/highlight.js/scss/atom-one-dark.scss",
               "src/assets/fonts/feather/iconfont.css",
               "src/assets/fonts/font-awesome/css/font-awesome.min.css",
-              "src/assets/fonts/flag-icon-css/css/flag-icon.min.css"
+              "src/assets/fonts/flag-icon-css/css/flag-icon.min.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.bubble.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules", "src/assets/"]
